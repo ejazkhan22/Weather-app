@@ -12,7 +12,8 @@ const fetchWeather = async () => {
     weatherContainer.innerHTML = `<div class="spinner-border" role="status">
   <span class="visually-hidden">Loading...</span>
 </div>`;
-    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}&unit=matrik`;
+    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
+              
     const response = await fetch(URL);
     const data = await response.json();
     return       displayWeather(data);
@@ -21,12 +22,12 @@ const fetchWeather = async () => {
 // Display weather data
 const displayWeather = (data) => {
     const weatherContainer = document.getElementById('weather');
-
+console.log(data)
 
 
     weatherContainer.innerHTML = `
         <h2>${data.name}</h2>
-        <img src = "https://openweathermap.org/img/wn/${`data.weather[0].icon`}@2x.png"></img>
+       <img src=" https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png"" alt="icon">
         <p>${data.weather[0].description}</p>
         <p>Temperature: ${data.main.temp}°C</p>
         <p>Feels Like: ${data.main.feels_like}°C</p>
