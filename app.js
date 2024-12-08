@@ -9,33 +9,27 @@ const fetchWeather = async () => {
         weatherContainer.innerHTML = `<p>Please enter a city name.</p>`;
         return;
     }
-
-    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
-
-    try {
-        const response = await fetch(URL);
-        const data = await response.json();
-
-        if (data.cod === 200) {
-            displayWeather(data);
-        } else {
-            weatherContainer.innerHTML = `<p>${data.message}</p>`;
-        }
-    } catch (error) {
-        weatherContainer.innerHTML = `<p>Unable to fetch weather data. Please try again later.</p>`;
-    }
-};
+    weatherContainer.innerHTML = `<div class="spinner-border" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>`;
+    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}&unit=matrik`;
+    const response = await fetch(URL);
+    const data = await response.json();
+    return       displayWeather(data);
+}
 
 // Display weather data
 const displayWeather = (data) => {
     const weatherContainer = document.getElementById('weather');
-    const { name, main, weather } = data;
+
+
 
     weatherContainer.innerHTML = `
-        <h2>${name}</h2>
-        <p>${weather[0].description}</p>
-        <p>Temperature: ${main.temp}°C</p>
-        <p>Feels Like: ${main.feels_like}°C</p>
-        <p>Humidity: ${main.humidity}%</p>
+        <h2>${data.name}</h2>
+        <img src = "https://openweathermap.org/img/wn/${`data.weather[0].icon`}@2x.png"></img>
+        <p>${data.weather[0].description}</p>
+        <p>Temperature: ${data.main.temp}°C</p>
+        <p>Feels Like: ${data.main.feels_like}°C</p>
+        <p>Humidity: ${data.main.humidity}%</p>
     `;
 };
